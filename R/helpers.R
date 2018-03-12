@@ -271,3 +271,25 @@ view_url <- function(..., open = interactive()) {
   }
   invisible(url)
 }
+
+#' Create functions for inserting code into non-templated files.
+#'
+#' @param edit_function function A function that opens the desired file for
+#'   editing. E.g. \link{edit_r_profile}
+#' @param todo_text character Message describing the reasons for editing the
+#'   file.
+#' @param code character The code to be added to the file. This will be
+#'   displayed, and also copied to the user's clipboard
+#' @param .return Expression to evaluate and return invisibly
+#'
+#' @return A function.
+#'
+#' @export
+use_ <- function(edit_function, todo_text, code, .return) {
+  function() {
+    edit_function()
+    todo(todo_text)
+    code_block(code)
+    invisible(.return)
+  }
+}
